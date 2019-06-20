@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   Collapse,
   Navbar,
@@ -13,46 +14,98 @@ import {
   DropdownItem
 } from 'reactstrap';
 
-export default class NavBar extends Component {
-  state = { isOpen: false };
+import { Icon } from '../Common';
+import { setColor } from '../../store/actions';
 
-  toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  };
+const NavBar = props => {
+  const colors = [
+    'primary',
+    'secondary',
+    'info',
+    'warning',
+    'danger',
+    'success'
+  ];
+  const { color, setColor } = props;
+  const [isOpen, setIsOpen] = useState(false);
 
-  render() {
-    return (
-      <div>
-        <Navbar color="primary" light expand="sm">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/components/">Components</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">
-                  GitHub
-                </NavLink>
-              </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
-    );
-  }
-}
+  const onToggleHandler = () => setIsOpen(!isOpen);
+
+  const onChangeColorHandler = color => setColor(color);
+
+  const renderDropdownItem = () => (
+    <React.Fragment>
+      <DropdownItem
+        className={`text-${colors[0]}`}
+        onClick={() => onChangeColorHandler(colors[0])}
+      >
+        {colors[0]}
+      </DropdownItem>
+      <DropdownItem
+        className={`text-${colors[1]}`}
+        onClick={() => onChangeColorHandler(colors[1])}
+      >
+        {colors[1]}
+      </DropdownItem>
+      <DropdownItem
+        className={`text-${colors[2]}`}
+        onClick={() => onChangeColorHandler(colors[2])}
+      >
+        {colors[2]}
+      </DropdownItem>
+      <DropdownItem
+        className={`text-${colors[3]}`}
+        onClick={() => onChangeColorHandler(colors[3])}
+      >
+        {colors[3]}
+      </DropdownItem>
+      <DropdownItem
+        className={`text-${colors[4]}`}
+        onClick={() => onChangeColorHandler(colors[4])}
+      >
+        {colors[4]}
+      </DropdownItem>
+      <DropdownItem divider />
+      <DropdownItem
+        className={`text-${colors[5]}`}
+        onClick={() => onChangeColorHandler(colors[5])}
+      >
+        {colors[5]}
+      </DropdownItem>
+    </React.Fragment>
+  );
+
+  return (
+    <Navbar color={color} light expand="sm">
+      <NavbarBrand href="/">
+        <Icon className="fa fa-user"> MERN STACK APP</Icon>
+      </NavbarBrand>
+      <NavbarToggler onClick={onToggleHandler} />
+      <Collapse isOpen={isOpen} navbar>
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <NavLink href="/">
+              <Icon className="fa fa-plus-circle"> Add</Icon>
+            </NavLink>
+          </NavItem>
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>
+              <Icon className="fa fa-gavel"> Colors</Icon>
+            </DropdownToggle>
+            <DropdownMenu right>{renderDropdownItem()}</DropdownMenu>
+          </UncontrolledDropdown>
+        </Nav>
+      </Collapse>
+    </Navbar>
+  );
+};
+
+const mapStateToProps = state => {
+  const { color } = state.color;
+  return { color };
+};
+
+export default connect(
+  mapStateToProps,
+  { setColor }
+)(NavBar);
