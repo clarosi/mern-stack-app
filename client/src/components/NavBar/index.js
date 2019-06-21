@@ -4,18 +4,17 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
 
-import { Icon } from '../Common';
+import { Icon, RouterLink } from '../Common';
 import { setColor } from '../../store/actions';
+import { HOME_LINK, ABOUT_LINK } from '../../shared/strings';
 
 const NavBar = props => {
   const colors = [
@@ -77,20 +76,20 @@ const NavBar = props => {
 
   return (
     <Navbar color={color} light expand="sm">
-      <NavbarBrand href="/">
-        <Icon className="fa fa-user"> MERN STACK APP</Icon>
-      </NavbarBrand>
+      <RouterLink className={'navbar-brand'} to={HOME_LINK}>
+        <Icon className="fa fa-user" /> MERN STACK APP
+      </RouterLink>
       <NavbarToggler onClick={onToggleHandler} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
           <NavItem>
-            <NavLink href="/">
-              <Icon className="fa fa-plus-circle"> Add</Icon>
-            </NavLink>
+            <RouterLink className={'nav-link'} to={ABOUT_LINK}>
+              <Icon className="fa fa-info-circle" /> About
+            </RouterLink>
           </NavItem>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
-              <Icon className="fa fa-gavel"> Colors</Icon>
+              <Icon className="fa fa-star" /> Themes
             </DropdownToggle>
             <DropdownMenu right>{renderDropdownItem()}</DropdownMenu>
           </UncontrolledDropdown>

@@ -2,7 +2,7 @@ const Item = require('../models/item');
 
 module.exports.getItems = (_, res) => {
   Item.find()
-    .sort({ createAt: -1 })
+    .sort({ createdAt: -1 })
     .then(items => res.json(items))
     .catch(error => res.status(500).json({ message: error }));
 };

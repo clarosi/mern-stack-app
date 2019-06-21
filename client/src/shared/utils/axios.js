@@ -1,0 +1,29 @@
+import axios from 'axios';
+
+const axiosInstance = axios.create({
+  baseURL:
+    process.env.NODE_ENV === 'production' ? 'TBD' : 'http://localhost:4000/',
+  timeout: 9000
+});
+
+const errObj = (error, msg) => {
+  return { error, msg };
+};
+
+export const getRequest = url => {
+  return axiosInstance
+    .get(url)
+    .then(res => res.data)
+    .catch(err => errObj(true, err.message));
+};
+
+export const postRequest = (url, data = {}, method = 'POST') => {
+  return axiosInstance
+    .request({
+      method,
+      url,
+      data
+    })
+    .then(res => res.data)
+    .catch(err => errObj(true, err.message));
+};

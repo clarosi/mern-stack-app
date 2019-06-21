@@ -1,2 +1,2 @@
-export { getItems, removeItem } from './item';
+export { getItems, removeItem, addItem } from './item';
 export { setColor } from './color';

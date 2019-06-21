@@ -1,37 +1,29 @@
-import uuid from 'uuid';
-
 import {
   GET_ITEMS,
+  ADD_ITEM,
   REMOVE_ITEM,
-  ADD_ITEM_STARTS,
-  ADD_ITEM_SUCCESS,
-  ADD_ITEM_FAILED
+  SET_LOADING_STATUS
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  isLoading: false,
-  items: [
-    { id: uuid(), name: 'Ian' },
-    { id: uuid(), name: 'Lorlyn' },
-    { id: uuid(), name: 'Zyrus' },
-    { id: uuid(), name: 'Zianna' }
-  ]
+  loading: false,
+  items: []
 };
 
 const itemReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_ITEMS:
-      return Object.assign({}, state);
+      return Object.assign({}, state, { items: action.payload });
+    case ADD_ITEM:
+      return Object.assign({}, state, {
+        items: [action.payload, ...state.items]
+      });
     case REMOVE_ITEM:
       return Object.assign({}, state, {
-        items: state.items.filter(item => item.id !== action.payLoad)
+        items: state.items.filter(item => item._id !== action.payload._id)
       });
-    case ADD_ITEM_STARTS:
-      return Object.assign({}, state, { isLoading: true });
-    case ADD_ITEM_SUCCESS:
-      return Object.assign({}, state, { isLoading: false });
-    case ADD_ITEM_FAILED:
-      return Object.assign({}, state, { isLoading: false });
+    case SET_LOADING_STATUS:
+      return Object.assign({}, state, { loading: action.payload });
     default:
       return state;
   }

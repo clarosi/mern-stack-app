@@ -5,6 +5,7 @@ import { Container } from 'reactstrap';
 import { Heading } from '../../components/Common';
 import Layout from '../../hoc/Layout/main';
 import ItemList from '../../components/ItemList';
+import Modal from '../../components/Modal';
 
 const Home = props => {
   return (
@@ -12,6 +13,7 @@ const Home = props => {
       <Container>
         <Heading className={`text-${props.color} mt-3`}>Home</Heading>
         <ItemList />
+        <Modal />
       </Container>
     </Layout>
   );

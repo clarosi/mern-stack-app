@@ -4,9 +4,9 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
 const composeEnhancers =
-  process.env.NODE_ENV === 'production'
+  (process.env.NODE_ENV === 'production'
     ? compose
-    : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+    : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
 const store = createStore(
   rootReducer,
