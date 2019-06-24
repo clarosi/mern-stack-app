@@ -3,13 +3,15 @@ import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import Layout from '../../hoc/Layout/main';
-import { MT_5 } from '../../shared/strings'
+import { MT_5 } from '../../shared/strings';
 import { Heading } from '../../components/Common';
 
 const NotFound = props => (
-  <Layout>
+  <Layout {...props}>
     <Container>
-      <Heading className={`${MT_5} text-${props.color}`}>Page Not Found.</Heading>
+      <Heading className={`${MT_5} text-${props.color}`}>
+        Page Not Found.
+      </Heading>
     </Container>
   </Layout>
 );

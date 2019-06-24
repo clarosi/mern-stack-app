@@ -7,10 +7,12 @@ import { MT_5 } from '../../shared/strings';
 import { Heading } from '../../components/Common';
 
 const About = props => (
-  <Layout>
+  <Layout {...props}>
     <Container>
       <Heading className={`${MT_5} text-${props.color}`}>About</Heading>
-      <div>MERN: MongoDB, Express.js, React.js + hooks, Node.js</div>
+      <div className={`text-${props.color}`}>
+        MERN: MongoDB, Express.js, React.js + hooks, Node.js
+      </div>
     </Container>
   </Layout>
 );

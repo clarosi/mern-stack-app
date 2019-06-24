@@ -25,7 +25,7 @@ const NavBar = props => {
     'danger',
     'success'
   ];
-  const { color, setColor } = props;
+  const { color, setColor, location } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const onToggleHandler = () => setIsOpen(!isOpen);
@@ -74,19 +74,30 @@ const NavBar = props => {
     </React.Fragment>
   );
 
+  const renderToggleMenuItem = () => {
+    if (location.pathname !== '/') {
+      return (
+        <RouterLink className={'nav-link'} to={HOME_LINK}>
+          <Icon className="fa fa-home" /> Home
+        </RouterLink>
+      );
+    }
+    return (
+      <RouterLink className={'nav-link'} to={ABOUT_LINK}>
+        <Icon className="fa fa-info-circle" /> About
+      </RouterLink>
+    );
+  };
+
   return (
     <Navbar color={color} light expand="sm">
       <RouterLink className={'navbar-brand'} to={HOME_LINK}>
-        <Icon className="fa fa-user" /> MERN STACK APP
+        <Icon className="fa fa-globe" /> MERN STACK APP
       </RouterLink>
       <NavbarToggler onClick={onToggleHandler} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
-          <NavItem>
-            <RouterLink className={'nav-link'} to={ABOUT_LINK}>
-              <Icon className="fa fa-info-circle" /> About
-            </RouterLink>
-          </NavItem>
+          <NavItem>{renderToggleMenuItem()}</NavItem>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
               <Icon className="fa fa-star" /> Themes

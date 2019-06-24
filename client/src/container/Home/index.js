@@ -9,9 +9,14 @@ import Modal from '../../components/Modal';
 
 const Home = props => {
   return (
-    <Layout>
+    <Layout {...props}>
       <Container>
-        <Heading className={`text-${props.color} mt-3`}>Home</Heading>
+        <Heading
+          onClick={() => console.log(props.history)}
+          className={`text-${props.color} mt-3`}
+        >
+          Home
+        </Heading>
         <ItemList />
         <Modal />
       </Container>
