@@ -10,8 +10,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// items endpoint
+// end points
 app.use('/api/items', require('./routes/item'));
+app.use('/api/users', require('./routes/user'));
 
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static('client/build'));

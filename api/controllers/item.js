@@ -1,16 +1,12 @@
 const Item = require('../models/item');
-
-const STATUS_CODE = 500;
-
-const errObj = err => {
-  return { message: err }
-}
+const { errObj } = require('../../shared/utils/helper');
+const { SERVER_ERR_CODE } = require('../../shared/utils/status-code');
 
 module.exports.getItems = (_, res) => {
   Item.find()
     .sort({ createdAt: -1 })
     .then(items => res.json(items))
-    .catch(error => res.status(STATUS_CODE).json(errObj(error)));
+    .catch(error => res.status(SERVER_ERR_CODE).json(errObj(error)));
 };
 
 module.exports.addItem = (req, res) => {
@@ -19,7 +15,7 @@ module.exports.addItem = (req, res) => {
   newItem
     .save()
     .then(item => res.json(item))
-    .catch(error => res.status(STATUS_CODE).json(errObj(error)));
+    .catch(error => res.status(SERVER_ERR_CODE).json(errObj(error)));
 };
 
 module.exports.updateItem = (req, res) => {
@@ -31,7 +27,7 @@ module.exports.updateItem = (req, res) => {
         .then(item => res.json(item))
         .catch(error => error)
     )
-    .catch(error => res.status(STATUS_CODE).json(errObj(error)));
+    .catch(error => res.status(SERVER_ERR_CODE).json(errObj(error)));
 };
 
 module.exports.deleteItem = (req, res) => {
@@ -42,5 +38,5 @@ module.exports.deleteItem = (req, res) => {
         .then(item => res.json(item))
         .catch(error => error)
     )
-    .catch(error => res.status(STATUS_CODE).json(errObj(error)));
+    .catch(error => res.status(SERVER_ERR_CODE).json(errObj(error)));
 };

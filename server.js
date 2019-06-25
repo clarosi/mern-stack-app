@@ -12,7 +12,8 @@ if (process.env.NODE_ENV === 'production') {
 
 mongoose
   .connect(uri, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true
   })
   .then(() => {
     const PORT = process.env.PORT || 4000;

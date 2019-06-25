@@ -52,13 +52,13 @@ const ItemList = props => {
     await editItem({ id: editId, name: name.value });
     onToggleHandler();
     setSnackbarMsg('Edit Success');
-    setSnackbarOpen(!snackbarOpen);
+    setSnackbarOpen(true);
   };
 
   const onRemoveItemHandler = async id => {
     await removeItem(id);
     setSnackbarMsg('Delete Success');
-    setSnackbarOpen(!snackbarOpen);
+    setSnackbarOpen(true);
   };
 
   const onEditItemHandler = id => {
@@ -75,7 +75,7 @@ const ItemList = props => {
   const onAddItemHandler = async () => {
     await addItem({ name: name.value });
     setSnackbarMsg('Add Success');
-    setSnackbarOpen(!snackbarOpen);
+    setSnackbarOpen(true);
     onToggleHandler();
   };
 
@@ -94,7 +94,7 @@ const ItemList = props => {
 
   const onCloseSnackbarHandler = () => {
     setSnackbarMsg(null);
-    setSnackbarOpen(!snackbarOpen);
+    setSnackbarOpen(false);
   };
 
   const renderListItem = () =>

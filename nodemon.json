@@ -3,6 +3,7 @@
     "DB_NAME": "mern-stack-app",
     "USER_NAME": "clarosian",
     "PASSWORD": "5MNLJKpwvADk2bJf",
-    "NODE_ENV": "test"
+    "NODE_ENV": "test",
+    "SECRET_KEY": "ianclaros123##&"
   }
 }

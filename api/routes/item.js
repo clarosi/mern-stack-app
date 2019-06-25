@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../middleware/auth');
+
 // Get items
 router.get('/', require('../controllers/item').getItems);
 
@@ -11,6 +13,6 @@ router.post('/', require('../controllers/item').addItem);
 router.put('/:_id', require('../controllers/item').updateItem);
 
 // Delete item
-router.delete('/:_id', require('../controllers/item').deleteItem);
+router.delete('/:_id', auth, require('../controllers/item').deleteItem);
 
 module.exports = router;
