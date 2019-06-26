@@ -14,7 +14,12 @@ import {
 
 import { Icon, RouterLink } from '../Common';
 import { setColor } from '../../store/actions';
-import { HOME_LINK, ABOUT_LINK } from '../../shared/strings';
+import {
+  HOME_LINK,
+  SIGNUP_LINK,
+  SIGNIN_LINK,
+  ABOUT_LINK
+} from '../../shared/strings';
 
 const NavBar = props => {
   const colors = [
@@ -25,7 +30,7 @@ const NavBar = props => {
     'danger',
     'success'
   ];
-  const { color, setColor, location } = props;
+  const { user, color, setColor, location } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const onToggleHandler = () => setIsOpen(!isOpen);
@@ -75,7 +80,23 @@ const NavBar = props => {
   );
 
   const renderToggleMenuItem = () => {
-    if (location.pathname !== '/') {
+    const { pathname } = location;
+
+    if (!user) {
+      if (pathname === SIGNUP_LINK) {
+        return (
+          <RouterLink className={'nav-link'} to={SIGNIN_LINK}>
+            <Icon className="fa fa-arrow-right" /> SignIn
+          </RouterLink>
+        );
+      }
+      return (
+        <RouterLink className={'nav-link'} to={SIGNUP_LINK}>
+          <Icon className="fa fa-user-plus" /> SignUp
+        </RouterLink>
+      );
+    }
+    if (pathname !== HOME_LINK) {
       return (
         <RouterLink className={'nav-link'} to={HOME_LINK}>
           <Icon className="fa fa-home" /> Home
@@ -100,7 +121,7 @@ const NavBar = props => {
           <NavItem>{renderToggleMenuItem()}</NavItem>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
-              <Icon className="fa fa-star" /> Themes
+              <Icon className="fa fa-cog" /> Themes
             </DropdownToggle>
             <DropdownMenu right>{renderDropdownItem()}</DropdownMenu>
           </UncontrolledDropdown>
@@ -111,8 +132,9 @@ const NavBar = props => {
 };
 
 const mapStateToProps = state => {
+  const { user } = state.auth;
   const { color } = state.color;
-  return { color };
+  return { user, color };
 };
 
 export default connect(

@@ -6,10 +6,7 @@ import {
   SET_LOADING_STATUS
 } from '../actions/types';
 
-const INITIAL_STATE = {
-  loading: false,
-  items: []
-};
+const INITIAL_STATE = { loading: false, items: [] };
 
 const itemReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {

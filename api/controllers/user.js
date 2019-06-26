@@ -9,12 +9,13 @@ const {
 const { errObj } = require('../../shared/utils/helper');
 const User = require('../models/user');
 
-const UNAUTH_ERROR = 'invalid email or password.';
+const UNAUTH_ERROR = 'Invalid email or password.';
 
 module.exports.getUser = (req, res) => {
-  User.findById(req.user._id)
+  const { _id, token } = req.user
+  User.findById(_id)
     .select('-password')
-    .then(user => res.json(user))
+    .then(user => res.json({token, ...user}))
     .catch(err => errObj(err));
 };
 
@@ -25,12 +26,12 @@ module.exports.signup = (req, res) => {
   if (!name || !email || !password)
     return res
       .status(BAD_REQ_CODE)
-      .json(errObj('name, email, and password are required.'));
+      .json(errObj('Name, email, and password are required.'));
 
   User.findOne({ email })
     .then(user => {
       if (user)
-        return res.status(BAD_REQ_CODE).json(errObj('email already exists.'));
+        return res.status(BAD_REQ_CODE).json(errObj('Email already exists.'));
 
       const newUser = new User({ name, email, password });
       bcrypt.genSalt(10, (err, salt) => {
@@ -44,7 +45,18 @@ module.exports.signup = (req, res) => {
             .save()
             .then(user => {
               const { _id, name, email } = user;
-              res.json({ _id, name, email });
+
+              // generate a token
+              jwt.sign(
+                { _id },
+                process.env.SECRET_KEY,
+                { expiresIn: '1h' },
+                (err, token) => {
+                  if (err) throw err;
+
+                  res.json({ token, _id, name, email });
+                }
+              );
             })
             .catch(err => err);
         });
@@ -60,7 +72,7 @@ module.exports.signin = (req, res) => {
   if (!email || !password)
     return res
       .status(BAD_REQ_CODE)
-      .json(errObj('email and password are required.'));
+      .json(errObj('Email and password are required.'));
 
   User.findOne({ email })
     .then(user => {

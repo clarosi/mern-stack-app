@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import Layout from '../../hoc/Layout/main';
@@ -8,11 +7,7 @@ import { Heading } from '../../components/Common';
 
 const NotFound = props => (
   <Layout {...props}>
-    <Container>
-      <Heading className={`${MT_5} text-${props.color}`}>
-        Page Not Found.
-      </Heading>
-    </Container>
+    <Heading className={`${MT_5} text-${props.color}`}>Page Not Found.</Heading>
   </Layout>
 );
 

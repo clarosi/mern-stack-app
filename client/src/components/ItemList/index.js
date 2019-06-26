@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  ListGroup,
-  ListGroupItem,
-  Button,
-  Form,
-  FormGroup,
-  Label
-} from 'reactstrap';
+import { ListGroup, ListGroupItem, Button, Form } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Modal from '../Modal';
-import { Icon, Textbox, SpinnerGrow, CustomSnackbar } from '../Common';
+import FrmGrp from '../FormGroup';
+import { Icon, SpinnerGrow, CustomSnackbar } from '../Common';
 import { getItems, removeItem, addItem, editItem } from '../../store/actions';
 import { getNewControls, resetControls } from '../../shared/utils';
 import { MR_3, MT_5, SIZE_SM } from '../../shared/strings';
@@ -46,7 +40,7 @@ const ItemList = props => {
 
   useEffect(() => {
     getItems();
-  }, [getItems]);
+  }, []);
 
   const onEditItem = async () => {
     await editItem({ id: editId, name: name.value });
@@ -81,9 +75,10 @@ const ItemList = props => {
 
   const onChangeHandler = e => {
     const { id, value } = e.target;
-    const newControls = { ...controls };
+    let newControls = { ...controls };
     newControls[id].value = value;
-    setControls(getNewControls(id, value, newControls));
+    newControls = getNewControls({ id, value, newControls });
+    setControls(newControls);
   };
 
   const onToggleHandler = () => {
@@ -124,19 +119,13 @@ const ItemList = props => {
 
   const renderModalContent = () => (
     <Form autoComplete={'off'}>
-      <FormGroup>
-        <Label for="name" className={`text-${color}`}>
-          Name:
-        </Label>
-        <Textbox
-          id={'name'}
-          value={name.value}
-          type={'text'}
-          placeholder={'Enter name'}
-          invalid={!name.valid && name.touch}
-          onChange={e => onChangeHandler(e)}
-        />
-      </FormGroup>
+      <FrmGrp
+        id={'name'}
+        lblTxt={'Name'}
+        control={name}
+        type={'text'}
+        onChange={onChangeHandler}
+      />
     </Form>
   );
 

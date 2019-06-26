@@ -1,21 +1,6 @@
-import { postRequest } from '../../shared/utils';
+import { dispatchAction } from '../../shared/utils';
 import { ITEM_URL } from '../../shared/strings';
-import {
-  GET_ITEMS,
-  ADD_ITEM,
-  EDIT_ITEM,
-  REMOVE_ITEM,
-  SET_LOADING_STATUS
-} from './types';
-
-const dispatchAction = async ({ dispatch, url, data, method, type }) => {
-  dispatch({ type: SET_LOADING_STATUS, payload: true });
-  let result = await postRequest(url, data, method);
-  dispatch({ type: SET_LOADING_STATUS, payload: false });
-  if (result.error) return result.error;
-  if (method === 'PUT') result = data;
-  return dispatch({ type, payload: result });
-};
+import { GET_ITEMS, ADD_ITEM, EDIT_ITEM, REMOVE_ITEM } from './types';
 
 export const getItems = () => {
   return dispatch => {

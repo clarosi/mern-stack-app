@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'reactstrap';
 
 import { Heading } from '../../components/Common';
 import Layout from '../../hoc/Layout/main';
@@ -10,16 +9,14 @@ import Modal from '../../components/Modal';
 const Home = props => {
   return (
     <Layout {...props}>
-      <Container>
-        <Heading
-          onClick={() => console.log(props.history)}
-          className={`text-${props.color} mt-3`}
-        >
-          Home
-        </Heading>
-        <ItemList />
-        <Modal />
-      </Container>
+      <Heading
+        onClick={() => console.log(props.history)}
+        className={`text-${props.color} mt-3`}
+      >
+        Home
+      </Heading>
+      <ItemList />
+      <Modal />
     </Layout>
   );
 };

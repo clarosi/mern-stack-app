@@ -1,7 +1,21 @@
-import { validate, manageValidation } from './index';
+import { SET_LOADING_STATUS } from '../../store/actions/types';
+import { validate, manageValidation, postRequest } from './index';
 
-export const getNewControls = (id, value, newControls) => {
-  const connectedValue = manageValidation(id, value, newControls);
+export const dispatchAction = async ({ dispatch, url, data, method, type }) => {
+  dispatch({ type: SET_LOADING_STATUS, payload: true });
+  let result = await postRequest({ url, data, method });
+  dispatch({ type: SET_LOADING_STATUS, payload: false });
+  if (result.error) return result.error;
+  if (method === 'PUT') result = data;
+  return dispatch({ type, payload: result });
+};
+
+export const getNewControls = ({ id, value, newControls }) => {
+  const connectedValue = manageValidation({
+    key: id,
+    value,
+    controls: newControls
+  });
   newControls = {
     ...newControls,
     [id]: {

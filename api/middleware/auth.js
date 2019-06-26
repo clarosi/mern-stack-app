@@ -13,12 +13,13 @@ module.exports = (req, res, next) => {
     if (err)
       return res
         .status(UNAUTHORIZED_CODE)
-        .json(errObj('invalid or no token supplied.'));
+        .json(errObj('Invalid or no token supplied.'));
 
     User.findById(decoded._id)
       .select('-password')
       .then(user => {
-        req.user = user;
+		if (!user) throw 'Unauthorized user.';
+        req.user = {token, ...user};
         next();
       })
       .catch(err => res.status(UNAUTHORIZED_CODE).json(errObj(err)));
