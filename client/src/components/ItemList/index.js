@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { ListGroup, ListGroupItem, Button, Form } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Modal from '../Modal';
-import FrmGrp from '../FormGroup';
-import { Icon, SpinnerGrow, CustomSnackbar } from '../Common';
+import { Icon, SpinnerGrow, CustomSnackbarLegacy, FrmGrp } from '../Common';
 import { getItems, removeItem, addItem, editItem } from '../../store/actions';
 import { getNewControls, resetControls } from '../../shared/utils';
 import { MR_3, MT_5, SIZE_SM } from '../../shared/strings';
@@ -29,6 +28,7 @@ const ItemList = props => {
       value: '',
       valid: false,
       touch: false,
+      errMsg: '',
       validationRules: {
         required: true,
         minLength: 3,
@@ -40,7 +40,7 @@ const ItemList = props => {
 
   useEffect(() => {
     getItems();
-  }, []);
+  }, [getItems]);
 
   const onEditItem = async () => {
     await editItem({ id: editId, name: name.value });
@@ -95,7 +95,7 @@ const ItemList = props => {
   const renderListItem = () =>
     items.map(({ _id, name }) => (
       <CSSTransition key={_id} timeout={500} classNames={'fade'}>
-        <ListGroupItem className={`text-${color}`}>
+        <ListGroupItem>
           <Button
             color={'danger'}
             size={SIZE_SM}
@@ -131,12 +131,12 @@ const ItemList = props => {
 
   const renderListGroup = () => {
     return (
-      <React.Fragment>
+      <Fragment>
         {loading ? <SpinnerGrow className={MT_5} /> : null}
         <ListGroup className={MT_5}>
           <TransitionGroup>{renderListItem()}</TransitionGroup>
         </ListGroup>
-      </React.Fragment>
+      </Fragment>
     );
   };
 
@@ -162,7 +162,7 @@ const ItemList = props => {
       >
         {renderModalContent()}
       </Modal>
-      <CustomSnackbar
+      <CustomSnackbarLegacy
         open={snackbarOpen}
         messageInfo={snackbarMsg}
         handleClose={onCloseSnackbarHandler}

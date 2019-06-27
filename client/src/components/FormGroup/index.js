@@ -1,28 +1,20 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { FormGroup, Label } from 'reactstrap';
+import { FormGroup, Label, FormFeedback } from 'reactstrap';
 
 import { Textbox } from '../Common';
 
-const FrmGrp = ({ id, lblTxt, color, control, type, onChange }) => (
+export const FrmGrp = ({ id, lblTxt, control, type, onChange }) => (
   <FormGroup>
-    <Label for={id} className={`text-${color}`}>
-      {lblTxt}:
-    </Label>
+    <Label for={id}>{lblTxt}:</Label>
     <Textbox
       id={id}
       value={control.value}
       type={type}
       // placeholder={`Enter ${id}`}
       invalid={!control.valid && control.touch}
+      valid={control.valid && control.touch}
       onChange={e => onChange(e)}
     />
+    <FormFeedback>{control.errMsg}</FormFeedback>
   </FormGroup>
 );
-
-const mapStateToProps = state => {
-  const { color } = state.color;
-  return { color };
-};
-
-export default connect(mapStateToProps)(FrmGrp);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
@@ -20,14 +20,14 @@ const CustomModal = props => {
   const renderButtonAction = () => {
     if (loading) return <SpinnerGrow />;
     return (
-      <React.Fragment>
+      <Fragment>
         <Button color={color} onClick={action} disabled={actionStatus}>
           {actionText || 'Ok'}
         </Button>{' '}
         <Button color={color} onClick={toggle}>
           Cancel
         </Button>
-      </React.Fragment>
+      </Fragment>
     );
   };
 

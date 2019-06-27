@@ -1,3 +1,3 @@
-module.exports.errObj = err => {
-  return { message: err };
+module.exports.errObj = error => {
+  return { error };
 };

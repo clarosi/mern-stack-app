@@ -11,29 +11,40 @@ const maxLengthValidator = (value, maxLength) =>
 
 const equalToValidator = (value, checkValue) => value === checkValue;
 
-export const validate = (value, rules, connectedValue) => {
-  let isValid = true;
+export const validate = ({ value, rules, connectedValue }) => {
+  let msg = '';
+  let result = [true, ''];
+
   for (const rule in rules) {
     switch (rule) {
       case 'required':
-        isValid = isValid && requireValidator(value, rules[rule]);
+        const valid1 = requireValidator(value, rules[rule]);
+        msg = `${!valid1 ? 'This field is required.' : ''}`;
+        result = !valid1 ? [valid1, msg] : result;
         break;
       case 'isEmail':
-        isValid = isValid && emailValidator(value);
+        const valid2 = emailValidator(value);
+        msg = `${!valid2 ? 'Please enter a valid email.' : ''}`;
+        result = !valid2 ? [valid2, msg] : result;
         break;
       case 'minLength':
-        isValid = isValid && minLengthValidator(value, rules[rule]);
+        const valid3 = minLengthValidator(value, rules[rule]);
+        msg = `${!valid3 ? `Minimum length is ${rules[rule]}.` : ''}`;
+        result = !valid3 ? [valid3, msg] : result;
         break;
       case 'maxLength':
-        isValid = isValid && maxLengthValidator(value, rules[rule]);
+        const valid4 = maxLengthValidator(value, rules[rule]);
+        msg = `${!valid4 ? `Maximum length is ${rules[rule]}.` : ''}`;
+        result = !valid4 ? [valid4, msg] : result;
         break;
       case 'equalTo':
-        isValid = isValid && equalToValidator(value, connectedValue[rule]);
+        const valid5 = equalToValidator(value, connectedValue[rule]);
+        msg = `${!valid5 ? 'Not match.' : ''}`;
+        result = !valid5 ? [valid5, msg] : result;
         break;
       default:
-        isValid = true;
         break;
     }
   }
-  return isValid;
+  return result;
 };

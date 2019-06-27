@@ -6,20 +6,13 @@ import Layout from '../../hoc/Layout/main';
 import ItemList from '../../components/ItemList';
 import Modal from '../../components/Modal';
 
-const Home = props => {
-  return (
-    <Layout {...props}>
-      <Heading
-        onClick={() => console.log(props.history)}
-        className={`text-${props.color} mt-3`}
-      >
-        Home
-      </Heading>
-      <ItemList />
-      <Modal />
-    </Layout>
-  );
-};
+const Home = props => (
+  <Layout {...props}>
+    <Heading className={`text-${props.color} mt-3`}>Home</Heading>
+    <ItemList />
+    <Modal />
+  </Layout>
+);
 
 const mapStateToProps = state => {
   const { color } = state.color;

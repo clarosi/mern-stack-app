@@ -21,7 +21,7 @@ const Main = props => {
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   return (
     <Switch>

@@ -5,3 +5,5 @@ export * from '../SpinnerDefault';
 export * from '../Textbox';
 export * from '../Link';
 export * from '../Snackbar';
+export * from '../SnackbarLegacy';
+export * from '../FormGroup';

@@ -18,8 +18,8 @@ module.exports = (req, res, next) => {
     User.findById(decoded._id)
       .select('-password')
       .then(user => {
-		if (!user) throw 'Unauthorized user.';
-        req.user = {token, ...user};
+        if (!user) throw 'Unauthorized user.';
+        req.user = { token, ...user._doc };
         next();
       })
       .catch(err => res.status(UNAUTHORIZED_CODE).json(errObj(err)));

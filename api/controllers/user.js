@@ -12,11 +12,14 @@ const User = require('../models/user');
 const UNAUTH_ERROR = 'Invalid email or password.';
 
 module.exports.getUser = (req, res) => {
-  const { _id, token } = req.user
+  const { _id, token } = req.user;
   User.findById(_id)
     .select('-password')
-    .then(user => res.json({token, ...user}))
-    .catch(err => errObj(err));
+    .then(user => {
+      if (!user) throw 'Unauthorized user.';
+      res.json({ token, ...user._doc });
+    })
+    .catch(err => res.status(UNAUTHORIZED_CODE).json(errObj(err)));
 };
 
 module.exports.signup = (req, res) => {
@@ -91,7 +94,7 @@ module.exports.signin = (req, res) => {
             if (err) throw err;
 
             const { _id, name, email } = user;
-            res.json({ userData: { token, _id, name, email } });
+            res.json({ token, _id, name, email });
           }
         );
       });

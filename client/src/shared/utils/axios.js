@@ -8,8 +8,8 @@ const axiosInstance = axios.create({
   timeout: 9000
 });
 
-const errObj = (error, msg) => {
-  return { error, msg };
+const errObj = (isError, error) => {
+  return { isError, error };
 };
 
 export const getRequest = url => {
@@ -28,5 +28,5 @@ export const postRequest = ({ url, data = {}, method = 'POST' }) => {
       headers: { [`${TOKEN_NAME}`]: localStorage.getItem(TOKEN_NAME) }
     })
     .then(res => res.data)
-    .catch(err => errObj(true, err.message));
+    .catch(err => errObj(true, err));
 };

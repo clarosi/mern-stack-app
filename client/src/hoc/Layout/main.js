@@ -1,15 +1,36 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
 
+import { clearError } from '../../store/actions';
+import { CustomSnackbar } from '../../components/Common';
 import NavBar from '../../components/NavBar';
 
 const MainLayout = props => {
+  const { isError, errorMsg, clearError } = props;
+
   return (
-    <React.Fragment>
+    <Fragment>
       <NavBar {...props} />
       <Container>{props.children}</Container>
-    </React.Fragment>
+      <CustomSnackbar
+        open={isError}
+        messageInfo={errorMsg}
+        autoHideDuration={5000}
+        variant={'error'}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        handleClose={() => clearError()}
+      />
+    </Fragment>
   );
 };
 
-export default MainLayout;
+const mapStateToProps = state => {
+  const { isError, errorMsg } = state.error;
+  return { isError, errorMsg };
+};
+
+export default connect(
+  mapStateToProps,
+  { clearError }
+)(MainLayout);

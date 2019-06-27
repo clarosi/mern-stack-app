@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Form, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import Layout from '../../hoc/Layout/main';
-import FrmGrp from '../../components/FormGroup';
 import { doSignup } from '../../store/actions';
 import { getNewControls } from '../../shared/utils';
 import { MT_5, HOME_LINK } from '../../shared/strings';
-import { Heading, SpinnerDefault } from '../../components/Common';
+import { Heading, SpinnerDefault, FrmGrp } from '../../components/Common';
 
 const Signup = props => {
   const [disabled, setDisabled] = useState(true);
@@ -17,9 +16,10 @@ const Signup = props => {
       value: '',
       valid: false,
       touch: false,
+      errMsg: '',
       validationRules: {
-        required: true,
         minLength: 3,
+        required: true,
         maxLength: 20
       }
     },
@@ -27,10 +27,11 @@ const Signup = props => {
       value: '',
       valid: false,
       touch: false,
+      errMsg: '',
       validationRules: {
-        required: true,
         isEmail: true,
         minLength: 5,
+        required: true,
         maxLength: 50
       }
     },
@@ -38,9 +39,10 @@ const Signup = props => {
       value: '',
       valid: false,
       touch: false,
+      errMsg: '',
       validationRules: {
+        minLength: 6,
         required: true,
-        minLength: 3,
         maxLength: 50
       }
     },
@@ -48,10 +50,11 @@ const Signup = props => {
       value: '',
       valid: false,
       touch: false,
+      errMsg: '',
       validationRules: {
-        required: true,
         equalTo: 'password',
-        minLength: 3,
+        minLength: 6,
+        required: true,
         maxLength: 50
       }
     }
@@ -83,7 +86,7 @@ const Signup = props => {
 
   const renderFormContent = () => {
     return (
-      <React.Fragment>
+      <Fragment>
         <FrmGrp
           id={'name'}
           lblTxt={'Name'}
@@ -112,7 +115,7 @@ const Signup = props => {
           type={'password'}
           onChange={onChangeHandler}
         />
-      </React.Fragment>
+      </Fragment>
     );
   };
 
@@ -130,18 +133,18 @@ const Signup = props => {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       {renderRedirect()}
       <Layout {...props}>
         <Heading className={`${MT_5} text-${color}`}>SignUp</Heading>
-        <div className="w-50">
+        <div className="w-50 mb-5">
           <Form className={MT_5} autoComplete={'off'}>
             {renderFormContent()}
             {renderButton()}
           </Form>
         </div>
       </Layout>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

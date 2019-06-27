@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import {
   Collapse,
@@ -13,12 +13,13 @@ import {
 } from 'reactstrap';
 
 import { Icon, RouterLink } from '../Common';
-import { setColor } from '../../store/actions';
+import { setColor, doLogout } from '../../store/actions';
 import {
   HOME_LINK,
   SIGNUP_LINK,
   SIGNIN_LINK,
-  ABOUT_LINK
+  ABOUT_LINK,
+  TOKEN_NAME
 } from '../../shared/strings';
 
 const NavBar = props => {
@@ -30,15 +31,21 @@ const NavBar = props => {
     'danger',
     'success'
   ];
-  const { user, color, setColor, location } = props;
+  const { user, color, setColor, doLogout, location, history } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const onToggleHandler = () => setIsOpen(!isOpen);
 
   const onChangeColorHandler = color => setColor(color);
 
+  const onLogoutHandler = () => {
+    localStorage.removeItem(TOKEN_NAME);
+    doLogout();
+    history.push(SIGNIN_LINK);
+  };
+
   const renderDropdownItem = () => (
-    <React.Fragment>
+    <Fragment>
       <DropdownItem
         className={`text-${colors[0]}`}
         onClick={() => onChangeColorHandler(colors[0])}
@@ -76,7 +83,7 @@ const NavBar = props => {
       >
         {colors[5]}
       </DropdownItem>
-    </React.Fragment>
+    </Fragment>
   );
 
   const renderToggleMenuItem = () => {
@@ -86,7 +93,7 @@ const NavBar = props => {
       if (pathname === SIGNUP_LINK) {
         return (
           <RouterLink className={'nav-link'} to={SIGNIN_LINK}>
-            <Icon className="fa fa-arrow-right" /> SignIn
+            <Icon className="fa fa-arrow-circle-right" /> SignIn
           </RouterLink>
         );
       }
@@ -110,10 +117,34 @@ const NavBar = props => {
     );
   };
 
+  const renderLogoutMenuItem = () => {
+    if (user)
+      return (
+        <RouterLink onClick={onLogoutHandler} className={'nav-link'} to={'#'}>
+          <Icon className="fa fa-arrow-circle-left" /> Logout
+        </RouterLink>
+      );
+  };
+
+  const renderNavbarBrandIcon = () => {
+    if (user) {
+      return (
+        <Fragment>
+          <Icon className="fa fa-user" /> {user.name}
+        </Fragment>
+      );
+    }
+    return (
+      <Fragment>
+        <Icon className="fa fa-globe" /> MERN STACK APP
+      </Fragment>
+    );
+  };
+
   return (
     <Navbar color={color} light expand="sm">
       <RouterLink className={'navbar-brand'} to={HOME_LINK}>
-        <Icon className="fa fa-globe" /> MERN STACK APP
+        {renderNavbarBrandIcon()}
       </RouterLink>
       <NavbarToggler onClick={onToggleHandler} />
       <Collapse isOpen={isOpen} navbar>
@@ -125,6 +156,7 @@ const NavBar = props => {
             </DropdownToggle>
             <DropdownMenu right>{renderDropdownItem()}</DropdownMenu>
           </UncontrolledDropdown>
+          {renderLogoutMenuItem()}
         </Nav>
       </Collapse>
     </Navbar>
@@ -139,5 +171,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setColor }
+  { setColor, doLogout }
 )(NavBar);
