@@ -29,7 +29,7 @@ export const CustomSnackbarLegacy = props => {
     <Snackbar
       anchorOrigin={anchorOrigin || { vertical: 'top', horizontal: 'center' }}
       open={open}
-      autoHideDuration={autoHideDuration || 1500}
+      autoHideDuration={autoHideDuration || 5000}
       onClose={handleClose}
       message={
         <span>

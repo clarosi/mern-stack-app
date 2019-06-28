@@ -30,7 +30,7 @@ const Signup = props => {
       errMsg: '',
       validationRules: {
         isEmail: true,
-        minLength: 5,
+        //minLength: 5,
         required: true,
         maxLength: 50
       }
@@ -53,7 +53,7 @@ const Signup = props => {
       errMsg: '',
       validationRules: {
         equalTo: 'password',
-        minLength: 6,
+        //minLength: 6,
         required: true,
         maxLength: 50
       }

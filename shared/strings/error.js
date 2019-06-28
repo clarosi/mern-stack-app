@@ -3,5 +3,6 @@ module.exports = {
   UNAUTHORIZED_USR_ERR: 'Unauthorized user.',
   INVALID_CRE_ERR: 'Invalid email or password.',
   EMAIL_EXISTS_ERR: 'Email already exists.',
-  REQUIRED_FIELDS_ERR: 'All fields are required.'
+  REQUIRED_FIELDS_ERR: 'All fields are required.',
+  FORBIDDEN_ERR: 'Forbidden'
 };

@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 
 const SnackbarContentWrapper = props => {
   const classes = useStyles();
-  const { className, message, onClose, variant, ...other } = props;
+  const { className, message, onClose, variant, children, ...other } = props;
   const Icon = variantIcon[variant];
 
   return (
@@ -55,7 +55,7 @@ const SnackbarContentWrapper = props => {
       message={
         <span className={classes.message}>
           <Icon className={clsx(classes.icon, classes.iconVariant)} />
-          {message}
+          {message} {children}
         </span>
       }
       action={[
@@ -80,6 +80,7 @@ export const CustomSnackbar = props => {
     autoHideDuration,
     messageInfo,
     handleClose,
+    children,
     variant = 'success'
   } = props;
 
@@ -87,13 +88,14 @@ export const CustomSnackbar = props => {
     <Snackbar
       anchorOrigin={anchorOrigin || { vertical: 'top', horizontal: 'center' }}
       open={open}
-      autoHideDuration={autoHideDuration || 1500}
+      autoHideDuration={autoHideDuration || 5000}
       onClose={handleClose}
     >
       <SnackbarContentWrapper
         onClose={handleClose}
         variant={variant}
         message={messageInfo}
+        children={children}
       />
     </Snackbar>
   );

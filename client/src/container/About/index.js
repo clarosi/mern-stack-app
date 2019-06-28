@@ -16,6 +16,7 @@ const About = props => {
     'react-router-dom',
     'bootstrap',
     'reactstrap',
+    'font-awesome',
     '@material-ui/core',
     '@material-ui/icons',
     'react-transition-group'

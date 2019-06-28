@@ -1,5 +1,6 @@
 module.exports = {
   BAD_REQ_CODE: 400,
   UNAUTHORIZED_CODE: 401,
+  FORBIDDEN_CODE: 403,
   SERVER_ERR_CODE: 500
 };

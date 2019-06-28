@@ -16,8 +16,8 @@ const { errObj } = require('../../shared/utils');
 const User = require('../models/user');
 
 module.exports.getUser = (req, res) => {
-  const { _id, token } = req.user;
-  User.findById(_id)
+  const { _id, email, token } = req.user;
+  User.findOne({_id, email})
     .select('-password')
     .then(user => {
       if (!user) throw UNAUTHORIZED_USR_ERR;

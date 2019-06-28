@@ -4,7 +4,7 @@ import { ListGroup, ListGroupItem, Button, Form } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import Modal from '../Modal';
-import { Icon, SpinnerGrow, CustomSnackbarLegacy, FrmGrp } from '../Common';
+import { Icon, CustomSnackbar, FrmGrp, SpinnerDefault } from '../Common';
 import { getItems, removeItem, addItem, editItem } from '../../store/actions';
 import { getNewControls, resetControls } from '../../shared/utils';
 import { MR_3, MT_5, SIZE_SM } from '../../shared/strings';
@@ -42,17 +42,17 @@ const ItemList = props => {
     getItems();
   }, [getItems]);
 
-  const onEditItem = async () => {
-    await editItem({ id: editId, name: name.value });
+  const onEditItem = () => {
+    editItem({ id: editId, name: name.value });
     onToggleHandler();
-    setSnackbarMsg('Edit Success');
-    setSnackbarOpen(true);
+    setSnackbarMsg('Editing...');
+    setSnackbarOpen(loading);
   };
 
-  const onRemoveItemHandler = async id => {
-    await removeItem(id);
-    setSnackbarMsg('Delete Success');
-    setSnackbarOpen(true);
+  const onRemoveItemHandler = id => {
+    removeItem(id);
+    setSnackbarMsg('Deleting...');
+    setSnackbarOpen(loading);
   };
 
   const onEditItemHandler = id => {
@@ -66,10 +66,10 @@ const ItemList = props => {
     });
   };
 
-  const onAddItemHandler = async () => {
-    await addItem({ name: name.value });
-    setSnackbarMsg('Add Success');
-    setSnackbarOpen(true);
+  const onAddItemHandler = () => {
+    addItem({ name: name.value });
+    setSnackbarMsg('Adding...');
+    setSnackbarOpen(loading);
     onToggleHandler();
   };
 
@@ -132,7 +132,7 @@ const ItemList = props => {
   const renderListGroup = () => {
     return (
       <Fragment>
-        {loading ? <SpinnerGrow className={MT_5} /> : null}
+        {/* {loading ? <SpinnerGrow className={MT_5} /> : null} */}
         <ListGroup className={MT_5}>
           <TransitionGroup>{renderListItem()}</TransitionGroup>
         </ListGroup>
@@ -162,11 +162,14 @@ const ItemList = props => {
       >
         {renderModalContent()}
       </Modal>
-      <CustomSnackbarLegacy
+      <CustomSnackbar
         open={snackbarOpen}
         messageInfo={snackbarMsg}
+        variant={'info'}
         handleClose={onCloseSnackbarHandler}
-      />
+      >
+        <SpinnerDefault className={'ml-4'} />
+      </CustomSnackbar>
     </div>
   );
 };

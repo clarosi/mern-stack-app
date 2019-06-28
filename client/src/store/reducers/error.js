@@ -1,6 +1,6 @@
 import { SET_ERROR, CLEAR_ERROR } from '../actions/types';
 
-const INITIAL_STATE = { isError: false, errorMsg: '' };
+const INITIAL_STATE = { isError: false, errorMsg: '', statusCode: 0 };
 
 const errorReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -9,7 +9,8 @@ const errorReducer = (state = INITIAL_STATE, action) => {
         isError: true,
         errorMsg: action.payload.errorRes
           ? action.payload.errorRes
-          : action.payload.error.message
+          : action.payload.error.message,
+        statusCode: action.payload.status ? action.payload.status : 0
       });
     case CLEAR_ERROR:
       return Object.assign({}, state, { ...INITIAL_STATE });
