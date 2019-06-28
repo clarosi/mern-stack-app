@@ -5,18 +5,22 @@ const {
   BAD_REQ_CODE,
   SERVER_ERR_CODE,
   UNAUTHORIZED_CODE
-} = require('../../shared/utils/status-code');
-const { errObj } = require('../../shared/utils/helper');
+} = require('../../shared/numbers/statusCode');
+const {
+  INVALID_CRE_ERR,
+  EMAIL_EXISTS_ERR,
+  UNAUTHORIZED_USR_ERR,
+  REQUIRED_FIELDS_ERR
+} = require('../../shared/strings');
+const { errObj } = require('../../shared/utils');
 const User = require('../models/user');
-
-const UNAUTH_ERROR = 'Invalid email or password.';
 
 module.exports.getUser = (req, res) => {
   const { _id, token } = req.user;
   User.findById(_id)
     .select('-password')
     .then(user => {
-      if (!user) throw 'Unauthorized user.';
+      if (!user) throw UNAUTHORIZED_USR_ERR;
       res.json({ token, ...user._doc });
     })
     .catch(err => res.status(UNAUTHORIZED_CODE).json(errObj(err)));
@@ -27,14 +31,11 @@ module.exports.signup = (req, res) => {
 
   // Simple validation, i suggest use express-validator package.
   if (!name || !email || !password)
-    return res
-      .status(BAD_REQ_CODE)
-      .json(errObj('Name, email, and password are required.'));
+    return res.status(BAD_REQ_CODE).json(errObj(REQUIRED_FIELDS_ERR));
 
   User.findOne({ email })
     .then(user => {
-      if (user)
-        return res.status(BAD_REQ_CODE).json(errObj('Email already exists.'));
+      if (user) return res.status(BAD_REQ_CODE).json(errObj(EMAIL_EXISTS_ERR));
 
       const newUser = new User({ name, email, password });
       bcrypt.genSalt(10, (err, salt) => {
@@ -73,18 +74,16 @@ module.exports.signin = (req, res) => {
 
   // Simple validation, i suggest use express-validator package.
   if (!email || !password)
-    return res
-      .status(BAD_REQ_CODE)
-      .json(errObj('Email and password are required.'));
+    return res.status(BAD_REQ_CODE).json(errObj(REQUIRED_FIELDS_ERR));
 
   User.findOne({ email })
     .then(user => {
       if (!user)
-        return res.status(UNAUTHORIZED_CODE).json(errObj(UNAUTH_ERROR));
+        return res.status(UNAUTHORIZED_CODE).json(errObj(INVALID_CRE_ERR));
 
       bcrypt.compare(password, user.password).then(match => {
         if (!match)
-          return res.status(UNAUTHORIZED_CODE).json(errObj(UNAUTH_ERROR));
+          return res.status(UNAUTHORIZED_CODE).json(errObj(INVALID_CRE_ERR));
 
         jwt.sign(
           { _id: user._id },

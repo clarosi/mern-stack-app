@@ -1,6 +1,16 @@
 import { dispatchAction } from '../../shared/utils';
 import { ITEM_URL } from '../../shared/strings';
-import { GET_ITEMS, ADD_ITEM, EDIT_ITEM, REMOVE_ITEM } from './types';
+import {
+  GET_ITEMS,
+  ADD_ITEM,
+  EDIT_ITEM,
+  REMOVE_ITEM,
+  CLEAR_ITEM
+} from './types';
+
+export const clearItem = () => {
+  return { type: CLEAR_ITEM };
+};
 
 export const getItems = () => {
   return dispatch => {

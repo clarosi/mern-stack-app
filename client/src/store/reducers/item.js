@@ -3,6 +3,7 @@ import {
   ADD_ITEM,
   EDIT_ITEM,
   REMOVE_ITEM,
+  CLEAR_ITEM,
   SET_LOADING_STATUS
 } from '../actions/types';
 
@@ -31,6 +32,8 @@ const itemReducer = (state = INITIAL_STATE, action) => {
       return Object.assign({}, state, { items: removeItems });
     case SET_LOADING_STATUS:
       return Object.assign({}, state, { loading: action.payload });
+    case CLEAR_ITEM:
+      return Object.assign({}, state, { ...INITIAL_STATE });
     default:
       return state;
   }
