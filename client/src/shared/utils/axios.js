@@ -4,7 +4,9 @@ import { TOKEN_NAME } from '../strings';
 
 const axiosInstance = axios.create({
   baseURL:
-    process.env.NODE_ENV === 'production' ? 'TBD' : 'http://localhost:4000/',
+    process.env.NODE_ENV === 'production'
+      ? 'https://aqueous-mountain-63457.herokuapp.com/'
+      : 'http://localhost:4000/',
   timeout: 9000
 });
 
