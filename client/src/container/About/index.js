@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Layout from '../../hoc/Layout/main';
 import { MT_5 } from '../../shared/strings';
-import { Heading } from '../../components/Common';
+import { Heading, Icon } from '../../components/Common';
 
 const About = props => {
   const dependencies = [
@@ -30,6 +30,12 @@ const About = props => {
   return (
     <Layout {...props}>
       <Heading className={`${MT_5} text-${props.color}`}>About</Heading>
+      <div className="mb-3">
+        <Icon className="fa fa-copyright" />{' '}
+        <small className="font-italic">
+          Ian R. Claros{'<clarosian@yahoo.com>'}
+        </small>
+      </div>
       <div>
         MERN STACK APP: MongoDB, Express.js, React.js + hooks, Node.js
         <div className={`w-75 mb-5 ${MT_5}`}>
