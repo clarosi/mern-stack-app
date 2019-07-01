@@ -120,9 +120,14 @@ const Signup = props => {
   };
 
   const renderButton = () => {
-    if (loading) return <SpinnerDefault color={color} />;
+    if (loading) return <SpinnerDefault className={'mt-3'} color={color} />;
     return (
-      <Button onClick={onSignupHandler} disabled={disabled} color={color}>
+      <Button
+        className={'mt-3'}
+        onClick={onSignupHandler}
+        disabled={disabled}
+        color={color}
+      >
         SignUp
       </Button>
     );

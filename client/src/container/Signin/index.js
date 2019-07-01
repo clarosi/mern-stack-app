@@ -6,8 +6,13 @@ import { connect } from 'react-redux';
 import Layout from '../../hoc/Layout/main';
 import { doLogin } from '../../store/actions';
 import { getNewControls } from '../../shared/utils';
-import { MT_5, HOME_LINK } from '../../shared/strings';
-import { Heading, SpinnerDefault, FrmGrp } from '../../components/Common';
+import { MT_5, HOME_LINK, SIGNUP_LINK } from '../../shared/strings';
+import {
+  Heading,
+  SpinnerDefault,
+  FrmGrp,
+  RouterLink
+} from '../../components/Common';
 
 const Signup = props => {
   const [disabled, setDisabled] = useState(true);
@@ -73,14 +78,27 @@ const Signup = props => {
           type={'password'}
           onChange={onChangeHandler}
         />
+        <div className={'text-right'}>
+          <small>
+            Not registered?{' '}
+            <RouterLink className={`text-${color}`} to={SIGNUP_LINK}>
+              SignUp
+            </RouterLink>
+          </small>
+        </div>
       </Fragment>
     );
   };
 
   const renderButton = () => {
-    if (loading) return <SpinnerDefault color={color} />;
+    if (loading) return <SpinnerDefault className={'mt-3'} color={color} />;
     return (
-      <Button onClick={onSigninHandler} disabled={disabled} color={color}>
+      <Button
+        className={'mt-3'}
+        onClick={onSigninHandler}
+        disabled={disabled}
+        color={color}
+      >
         SignIn
       </Button>
     );
